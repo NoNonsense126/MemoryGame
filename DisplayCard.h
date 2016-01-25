@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  DisplayCard.h
 //  MemoryGame
 //
 //  Created by Wong You Jing on 25/01/2016.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface DisplayCard : UIImageView
 
 @end
-
