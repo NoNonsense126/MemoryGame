@@ -305,6 +305,7 @@
 				8165DB731C56D9B800C7D8BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
