@@ -10,4 +10,6 @@
 
 @interface DisplayCard : UIImageView
 
+@property UIImage *cardImage;
+
 @end
