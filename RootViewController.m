@@ -25,6 +25,10 @@
     
     
     [self showInstructionOnFirstEntry];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self drawBoard];
 }
 
@@ -52,53 +56,37 @@
 }
 
 - (void) drawBoard{
-    int margin = 12;
-    int topOffset = 40;
-    int border = 4;
+    //create button array
+    self.displayCards = [NSMutableArray new];
     
-    CGSize size = [[UIScreen mainScreen] bounds].size;
-    int screenHeight = size.height - 2 * margin;
-    int screenWidth = size.width - 2 * margin;
-    int extent = MIN(screenHeight, screenWidth); //Authored by Andy Mill
+    CGFloat totalWidth = self.cardSubView.frame.size.width;
+    [[self.cardSubView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    int buttonWidth = extent / self.cardsPerRow - border;
-    int buttonHeight = extent / self.cardsPerColumn - border;
-
+    NSInteger intLeftMargin = 10;
+    NSInteger intTopMargin  = 30;
+    NSInteger intSpacing = 10;
+    NSInteger intXTile;
+    NSInteger intYTile;
     
-    int x = margin;
-    int y = margin + topOffset;
+    NSInteger width;
+    NSInteger height;
     
-    NSMutableArray *stackViews = [NSMutableArray new];
+    width = ((totalWidth - (intLeftMargin))/self.cardsPerRow) - intSpacing;
+    height = width * (3.5 / 2.5);
     
-    for (int i = 0; i < self.cardsPerColumn; i++) {
-        NSMutableArray *displayCards = [NSMutableArray new];
-        
-        for (int j = 0; j < self.cardsPerRow; j++) {
+    for (int row = 0; row < self.cardsPerRow; row++) {
+        for (int col = 0; col < self.cardsPerColumn; col++) {
+            intXTile = (row * (width + intSpacing)) + intLeftMargin;
+            intYTile = (col * (height + intSpacing)) + intTopMargin;
             DisplayCard *displayCard = [DisplayCard new];
-            
-            displayCard.frame = CGRectMake(0, 0, buttonWidth, buttonHeight);
-            
-            displayCard.backgroundColor = [UIColor grayColor];
-            displayCard.layer.borderColor = [UIColor blackColor].CGColor;
-            displayCard.layer.borderWidth = 1;
-            
+            displayCard.frame =CGRectMake(intXTile, intYTile, width, height);
+            displayCard.backgroundColor = [UIColor whiteColor];
+
+
+            [self.cardSubView addSubview:displayCard];
             [self.displayCards addObject:displayCard];
-            [displayCards addObject:displayCard];
         }
-        
-        UIStackView *horizontalStackView = [[UIStackView alloc] initWithArrangedSubviews:displayCards];
-        horizontalStackView.axis = UILayoutConstraintAxisHorizontal;
-        horizontalStackView.distribution = UIStackViewDistributionFillEqually;
-        [stackViews addObject:horizontalStackView];
     }
-    
-    UIStackView *superStackView = [[UIStackView alloc] initWithArrangedSubviews:stackViews];
-    superStackView.axis = UILayoutConstraintAxisVertical;
-    superStackView.distribution = UIStackViewDistributionFillEqually;
-    
-    superStackView.frame = CGRectMake(x, y, extent, extent);
-    [self.view addSubview:superStackView];
-    self.cardSubView = superStackView;
 }
 
 @end
