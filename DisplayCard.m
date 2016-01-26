@@ -19,18 +19,38 @@
         self.userInteractionEnabled = YES;
         self.image = [UIImage imageNamed:@"back"];
         [self addGestureRecognizer:tap];
+        self.revealed = NO;
     }
-    
     return self;
 }
 
 - (void) handleTap:(UITapGestureRecognizer *)recognizer{
-    NSLog(@"clicked");
-    if (self.image == [UIImage imageNamed:@"back"]) {
-        self.image = self.cardImage;
-    } else {
-        self.image = [UIImage imageNamed:@"back"];
+    if (self.revealed) {
+        return;
     }
+    
+    if (self.revealed == NO) {
+        [self revealCard];
+    }
+    [self.delegate cardWasTapped:self];
 }
+
+-(void) revealCard {
+//    self.image = [UIImage imageNamed:self.cardImage];
+    self.revealed = YES;
+    UIImage *toImage = [UIImage imageNamed:self.cardImage];
+    [UIImageView transitionWithView:self
+                      duration:0.3f
+                       options:UIViewAnimationOptionTransitionFlipFromLeft
+                    animations:^{
+                        self.image = toImage;
+                    } completion:nil];
+}
+
+-(void) hideCard {
+    self.image = [UIImage imageNamed:@"back"];
+    self.revealed = NO;
+}
+
 
 @end

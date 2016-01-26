@@ -8,8 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol DisplayCardDelegate <NSObject>
+
+@optional
+-(void) cardWasTapped:(id)sender;
+
+@end
+
 @interface DisplayCard : UIImageView
 
-@property UIImage *cardImage;
+@property NSString *cardImage;
+
+@property BOOL revealed;
+
+@property id <DisplayCardDelegate> delegate;
+
+-(void) revealCard;
+
+-(void) hideCard;
 
 @end
